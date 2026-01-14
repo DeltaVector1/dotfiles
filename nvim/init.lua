@@ -1,0 +1,5 @@
+require('plugins')
+require('nvim-tree').setup()
+vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>')
+require('lualine').setup()
+vim.cmd('colorscheme kanagawa')
