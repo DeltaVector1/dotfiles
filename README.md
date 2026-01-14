@@ -2,21 +2,10 @@
 
 Personal configuration files.
 
-## Contents
+My own personal config files
 
 - `.gitconfig` - Git configuration
 - `.bashrc` - Bash config with oh-my-bash and aliases
 - `nvim/` - Neovim configuration (packer, kanagawa theme, nvim-tree, lualine, dashboard)
+- `.claude/` has skills/my main prompt(s), etc
 
-## Installation
-
-```bash
-# Git
-ln -sf ~/dotfiles/.gitconfig ~/.gitconfig
-
-# Bash
-ln -sf ~/dotfiles/.bashrc ~/.bashrc
-
-# Neovim
-ln -sf ~/dotfiles/nvim ~/.config/nvim
-```
