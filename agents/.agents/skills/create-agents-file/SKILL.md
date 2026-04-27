@@ -1,6 +1,7 @@
-Description: Create an CLAUDE.md file 
-argument-hint:
-────
+---
+name: create-agents-file
+description: Generate a concise CLAUDE.md/AGENTS.md contributor guide ("Repository Guidelines") with structure, build/test commands, style, and commit conventions tailored to the current repo. Writes both files with identical content.
+---
 
 Generate a file named CLAUDE.md that serves as a contributor guide for this repository.
 Your goal is to produce a clear, concise, and well-structured document with descriptive headings and actionable explanations for each section.
@@ -39,7 +40,7 @@ Testing Guidelines
 
 Commit & Pull Request Guidelines
 
-- Summarize commit message conventions found in the project’s Git history.
+- Summarize commit message conventions found in the project's Git history.
 - Outline pull request requirements (descriptions, linked issues, screenshots, etc.).
 
 (Optional) Add other sections if relevant, such as Security & Configuration Tips, Architecture Overview, or Agent-Specific Instructions.
