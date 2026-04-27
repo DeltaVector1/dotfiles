@@ -64,26 +64,56 @@ else
   exit 1
 fi
 
+install_claude_bundle() {
+  local dest="$1"
+  cp "$src/agents/CLAUDE.md" "$dest/"
+  cp "$src/agents/.mcp.json" "$dest/"
+  mkdir -p "$dest/.claude"
+  cp -R "$src/agents/.claude/." "$dest/.claude/"
+}
+
+install_codex_bundle() {
+  local dest="$1"
+  cp "$src/agents/AGENTS.md" "$dest/"
+  mkdir -p "$dest/.agents"
+  cp -R "$src/agents/.agents/." "$dest/.agents/"
+}
+
+# Idempotently add slop-guard to ~/.codex/config.toml so Codex always loads it.
+configure_codex_mcp() {
+  local cfg="$HOME/.codex/config.toml"
+  mkdir -p "$HOME/.codex"
+  if [ -f "$cfg" ] && grep -qE '^\[mcp_servers\.slop-guard\]' "$cfg"; then
+    echo "[=] slop-guard already in $cfg"
+    return
+  fi
+  {
+    [ -s "$cfg" ] && printf '\n'
+    printf '[mcp_servers.slop-guard]\n'
+    printf 'command = "uvx"\n'
+    printf 'args = ["slop-guard"]\n'
+  } >> "$cfg"
+  echo "[+] slop-guard added to $cfg"
+}
+
 agent="$(ask_choice "Which agent are you using?" claude codex both skip)"
 if [ "$agent" != "skip" ]; then
   dest="$(pwd)"
   echo "[*] dropping agent bundle into $dest"
   case "$agent" in
-    claude)
-      cp "$src/agents/CLAUDE.md" "$dest/"
-      mkdir -p "$dest/.claude/commands"
-      cp -R "$src/agents/.claude/commands/." "$dest/.claude/commands/"
-      ;;
-    codex)
-      cp "$src/agents/AGENTS.md" "$dest/"
-      mkdir -p "$dest/.agents/skills"
-      cp -R "$src/agents/.agents/skills/." "$dest/.agents/skills/"
-      ;;
+    claude) install_claude_bundle "$dest" ;;
+    codex)  install_codex_bundle "$dest" ;;
     both)
-      cp "$src/agents/CLAUDE.md" "$src/agents/AGENTS.md" "$dest/"
-      mkdir -p "$dest/.claude/commands" "$dest/.agents/skills"
-      cp -R "$src/agents/.claude/commands/." "$dest/.claude/commands/"
-      cp -R "$src/agents/.agents/skills/." "$dest/.agents/skills/"
+      install_claude_bundle "$dest"
+      install_codex_bundle "$dest"
+      ;;
+  esac
+  case "$agent" in
+    codex|both) configure_codex_mcp ;;
+  esac
+  case "$agent" in
+    claude|both)
+      echo "[i] slop-guard wired into $dest/.mcp.json (Claude Code will prompt to trust it on first run)"
       ;;
   esac
 fi

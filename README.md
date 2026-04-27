@@ -34,6 +34,7 @@ Drop the contents into any project repo when you want coding-agent rules + skill
 agents/
 ├── CLAUDE.md                    # working-style rules; Claude Code reads this
 ├── AGENTS.md                    # identical to CLAUDE.md; Codex (and others) read this
+├── .mcp.json                    # MCP servers for Claude Code (slop-guard always on)
 ├── .claude/
 │   ├── commands/                # Claude Code slash commands
 │   │   ├── deslop.md
@@ -47,6 +48,12 @@ agents/
 ```
 
 `frontend-design` is Anthropic's official skill ([upstream](https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design)) — kept verbatim with its license alongside.
+
+**slop-guard MCP** is wired in by default:
+- Claude Code: ships in `.mcp.json` (project-level — Claude prompts you to trust it on first run in a new project).
+- Codex: `install.sh` idempotently appends `[mcp_servers.slop-guard]` to `~/.codex/config.toml`.
+
+Both run via `uvx slop-guard`; uv is installed by `install.sh`.
 
 To use it in a target repo:
 
