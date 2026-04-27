@@ -20,7 +20,11 @@ It will ask, in order:
 3. Replace `~/.bashrc`?
 4. Replace `~/.gitconfig`?
 
+Then unconditionally installs [astral uv](https://docs.astral.sh/uv/) (skipped if already present).
+
 Existing files are backed up to `*.bak.<timestamp>` before being replaced.
+
+The script is a subshell — it cannot mutate your parent terminal's `PATH`. After it finishes, run `exec $SHELL -l` to pick up uv in the current shell, or just open a new terminal. The shipped `.bashrc` adds `~/.local/bin` to `PATH` so uv is on it from then on.
 
 ## agents/ — portable coding-agent bundle
 

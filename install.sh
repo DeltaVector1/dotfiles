@@ -115,4 +115,20 @@ if ask_yn "Replace ~/.gitconfig?"; then
   echo "[+] .gitconfig installed"
 fi
 
+# Astral uv — installed unconditionally, skipped if already present.
+if command -v uv >/dev/null 2>&1; then
+  echo "[=] uv already installed ($(uv --version))"
+else
+  echo "[*] installing astral uv"
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+
+# Make uv available for any later steps in this same script run.
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env" || true
+
+echo ""
 echo "[*] done."
+echo ""
+echo "    A subshell can't refresh your parent terminal. To pick up uv now:"
+echo "      exec \$SHELL -l        # replaces current shell with a fresh login shell"
+echo "    or just open a new terminal."
