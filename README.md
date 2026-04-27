@@ -34,13 +34,19 @@ Drop the contents into any project repo when you want coding-agent rules + skill
 agents/
 ├── CLAUDE.md                    # working-style rules; Claude Code reads this
 ├── AGENTS.md                    # identical to CLAUDE.md; Codex (and others) read this
-├── .claude/commands/            # Claude Code slash commands
-│   ├── deslop.md
-│   └── Create-Agents-File.md
+├── .claude/
+│   ├── commands/                # Claude Code slash commands
+│   │   ├── deslop.md
+│   │   └── Create-Agents-File.md
+│   └── skills/                  # Claude Code skills (SKILL.md format)
+│       └── frontend-design/SKILL.md
 └── .agents/skills/              # Codex skills (per https://developers.openai.com/codex/skills)
     ├── deslop/SKILL.md
-    └── create-agents-file/SKILL.md
+    ├── create-agents-file/SKILL.md
+    └── frontend-design/SKILL.md
 ```
+
+`frontend-design` is Anthropic's official skill ([upstream](https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design)) — kept verbatim with its license alongside.
 
 To use it in a target repo:
 
